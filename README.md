@@ -15,6 +15,10 @@ Reason for recommending smaller inputs is that for 10kb files and larger it does
 
 Chunking for large files and large single lines was also added.
 
+
+
 ### Sample Usage
+
 tetris.py < input.txt > output.txt -g  # will show gui and output to output.txt
+
 tetris.py < input.txt --graphics       # will show gui and output to stdout / terminal
