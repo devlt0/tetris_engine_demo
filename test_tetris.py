@@ -93,6 +93,15 @@ class TestProcessBatches(unittest.TestCase):
         results = process_batches(input_stream, show_gui=False)
         self.assertEqual(results, [4])
 
+    def test_stacking_multi(self):
+        input_stream = io.StringIO("s0,z7,j3,l5,j2,l6")
+        results = process_batches(input_stream, show_gui=False)
+        self.assertEqual(results, [5])
+
+    def test_stacking_center(self):
+        input_stream = io.StringIO("s0,z7,j3,l5,j2,l6,q4,q4")
+        results = process_batches(input_stream, show_gui=False)
+        self.assertEqual(results, [7])
 
     def test_invalid_moves(self):
         input_data = "X0\nQ0\n"  # X is invalid
