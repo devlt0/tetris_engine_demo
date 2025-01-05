@@ -98,8 +98,8 @@ class Tetris_Grid:
                 elif is_falling:
                     break
             except ValueError as val_err:
-                print(val_err)
-                print_exc()
+                sys.stderr.write(val_err)
+                #print_exc()
 
         # NumPy array slicing and addition to place piece
         if drop_row is not None:
@@ -120,22 +120,26 @@ class Tetris_Grid:
     def process_line_of_moves(self, raw_cs_text_line:str=''):
         list_of_moves = []
         resulting_height = -2
-        try:
-            list_of_moves = raw_cs_text_line.split(',')
-            list_of_moves = [move.strip().upper() for move in list_of_moves]
-            list_of_moves = [move for move in list_of_moves if move not in ("", None)] # just in case of spare comma doesn't crash program
 
-            for cur_move in list_of_moves:
-                if len(cur_move) == 2:
+        list_of_moves = raw_cs_text_line.split(',')
+        list_of_moves = [move.strip().upper() for move in list_of_moves]
+        list_of_moves = [move for move in list_of_moves if move not in ("", None)] # just in case of spare comma doesn't crash program
+
+        for cur_move in list_of_moves:
+            if len(cur_move) == 2:
+                try:
                     self.drop_piece_in(cur_move)
                     self.remove_full_rows()
-                else:
-                    print(f"Invalid move found {cur_move}")
+                except Exception as e:
+                    sys.stderr.write(f'{e}')
+
+            else:
+                sys.stderr.write(f"Invalid move found {cur_move}")
                 #print(self.get_update_grid_height())
-            resulting_height = self.get_update_grid_height()
-        except Exception as e:
-            print(e)
-            print_exc()
+        resulting_height = self.get_update_grid_height()
+        #except Exception as e:
+        #    sys.stderr.write(e)
+            #print_exc()
         return resulting_height
 
 
@@ -234,8 +238,8 @@ class TetrisGUI:
                 tk_handle.after(tk_refresh_rate_ms)
             resulting_height = self.grid.get_update_grid_height()
         except Exception as e:
-            print(e)
-            print_exc()
+            sys.stderr.write(e)
+            #print_exc()
 
         return resulting_height
 
@@ -316,8 +320,8 @@ def process_batches(input_source, show_gui=False, chunk_size=ten_kb, grid_max_he
             tetris_eng.reset_grid()
 
     except Exception as e:
-        print(e)
-        print_exc()
+        sys.stderr.write( f'{e}' )
+        #print_exc()
 
     finally:
         if isinstance(input_source, str):
@@ -342,8 +346,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
 
-    results = process_batches(sys.stdin, show_gui=args.graphics) #"input_longone.txt")#sys.stdin, show_gui=args.graphics)
-    #print(results)
+    results = process_batches(sys.stdin, show_gui=args.graphics)
+
     with sys.stdout as out_handle:
         for cur_res in results:
             out_handle.write(f"{cur_res}\n")
