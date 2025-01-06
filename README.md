@@ -1,6 +1,6 @@
 ## Tetris Engine Demo
 
-Tetris grid is setup per requirements (10 columns, 100rows) though number of rows is configurable in instantiation of Tetris_Grid(given_max_height).
+Tetris grid is setup per requirements (10 columns, 100rows).
 
 *Note: # of columns is not yet configurable as that would significantly change processing logic of moves
 
