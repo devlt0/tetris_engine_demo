@@ -15,6 +15,7 @@ Reason for recommending smaller inputs is that for 10kb files and larger it does
 
 Chunking for large files and large single lines was also added.
 
+Note: Blank lines in input files are still counted as input and expected to return 0 given no input, resulting height is 0 for given line.
 
 
 ### Sample Usage
